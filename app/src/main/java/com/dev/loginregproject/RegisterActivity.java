@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 
 import org.json.JSONException;
@@ -19,6 +20,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText usernameEd,passwordEd,firstNameEd,lastNameEd;
     private RadioButton maleRd,femaleRd;
     private CheckBox bizCb,holidayCb,travelCb;
+    private ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Register");
 
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
         usernameEd = (EditText)findViewById(R.id.usernameEd);
         passwordEd = (EditText)findViewById(R.id.passwordEd);
         firstNameEd = (EditText)findViewById(R.id.firstNameEd);
@@ -66,7 +70,8 @@ public class RegisterActivity extends AppCompatActivity {
             if (holidayCb.isChecked()){
                 payLoadObject.put("is_holidays",1);
             }
-            SendToServer sendToServer = new SendToServer(this, payLoadObject) {
+            progressBar.setVisibility(ProgressBar.VISIBLE);
+            SendToServer sendToServer = new SendToServer(payLoadObject) {
                 @Override
                 public void onResultArrive(String result) {
                     Log.w("FROM_SERVER",result);
@@ -78,6 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
                         }else{
                             Util.display(getBaseContext(),resultObject.getString("message"));
                         }
+                        progressBar.setVisibility(ProgressBar.GONE);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import org.json.JSONObject;
 
@@ -22,8 +23,8 @@ import javax.net.ssl.HttpsURLConnection;
 public abstract class SendToServer {
 
     private ConnectServer connectServer;
-    public SendToServer(Context context,JSONObject payload){
-        connectServer = new ConnectServer(context, String.valueOf(payload));
+    public SendToServer(JSONObject payload){
+        connectServer = new ConnectServer(String.valueOf(payload));
 
     }
 
@@ -36,11 +37,11 @@ public abstract class SendToServer {
     private class ConnectServer extends AsyncTask<String,Void,String>{
 
         private String mPayload;
-        private ProgressDialog progressDialog;
+        //private ProgressDialog progressDialog;
 
-        public ConnectServer(Context context,String payloadObj){
+        public ConnectServer(String payloadObj){
             mPayload = payloadObj;
-            progressDialog = ProgressDialog.show(context,"Connecting...","Connecting server");
+            //progressDialog = ProgressDialog.show(context,"Connecting...","Connecting server");
         }
 
         @Override
@@ -92,11 +93,13 @@ public abstract class SendToServer {
             return stringBuilder.toString();
         }
 
+
+
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             onResultArrive(s);
-            progressDialog.dismiss();
+            //progressDialog.dismiss();
         }
     }
 

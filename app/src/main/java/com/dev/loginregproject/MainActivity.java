@@ -1,6 +1,7 @@
 package com.dev.loginregproject;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,8 +9,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Shopping List");
+        ListView listView = (ListView)findViewById(R.id.listView);
 
     }
 
@@ -38,7 +43,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this,LoginActivity.class));
                 finish();
                 break;
+
+            case R.id.action_add:
+                Intent intent = new Intent(this,AddEditActivity.class);
+                intent.putExtra(Util.ITEM_ID,Util.NEW_ITEM);
+                startActivityForResult(intent,Util.REQ_CODE);
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
